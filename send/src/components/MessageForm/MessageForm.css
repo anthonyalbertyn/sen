@@ -19,3 +19,12 @@
 .note {
   padding-top: 1rem;
 }
+
+.message-form-actions-wrapper {
+  display: flex;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+.message-form-action-item {
+  margin-right: 0.5rem;
+}

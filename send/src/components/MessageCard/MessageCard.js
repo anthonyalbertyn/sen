@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Popconfirm } from "antd";
 import "./MessageCard.css";
 import EditButton from "../EditButton";
 import DeleteButton from "../DeleteButton";
@@ -21,7 +21,15 @@ function MessageCard(props) {
             <EditButton label="Edit" onClick={onEditClick} />
           </div>
           <div className="message-card-action-button">
-            <DeleteButton label="Delete" onClick={onDeleteClick} />
+            <Popconfirm
+              title="Are you sure？"
+              okText="Yes"
+              cancelText="No"
+              placement="topLeft"
+              onConfirm={onDeleteClick}
+            >
+              <DeleteButton label="Delete" />
+            </Popconfirm>
           </div>
         </div>
         <div className="message-id">ID: {messageId}</div>

@@ -3,8 +3,7 @@ import "antd/dist/antd.css";
 import "./App.css";
 import NewMessageButton from "../NewMessageButton";
 import MessageList from "../MessageList";
-import CreateModal from "../CreateModal";
-import EditModal from "../EditModal";
+import MessageModal from "../MessageModal";
 import MessageForm from "../MessageForm";
 
 function App() {
@@ -14,9 +13,6 @@ function App() {
 
   const [isEditModalActive, setIsEditModalActive] = useState(false);
   const [isCreateModalActive, setIsCreateModalActive] = useState(false);
-  const [isCreateDisabled, setIsCreateDisabled] = useState(true);
-  const [isUpdateDisabled, setIsUpdateDisabled] = useState(true);
-
   const [editMessageId, setEditMessageId] = useState(0);
 
   const getMessageData = (messageId) => {
@@ -33,15 +29,8 @@ function App() {
   };
 
   const createMessage = (message, unixTimestamp) => {
-    if (
-      !message ||
-      !unixTimestamp ||
-      typeof message !== "string" ||
-      typeof unixStamp !== "string"
-    ) {
-      console.error(
-        "Could not create message - missing or invalid field values"
-      );
+    if (!message || !unixTimestamp) {
+      console.error("Could not create message - missing field values");
       return;
     }
     const newMessage = {
@@ -58,11 +47,25 @@ function App() {
     ]);
   };
 
-  const updateMessage = (message, unixTimestamp) => {};
-
-  const handleUpdateMessage = (message, unixTimestamp) => {
-    updateMessage(message, unixTimestamp);
-    setIsCreateModalActive(false);
+  const updateMessage = (message, unixTimestamp) => {
+    if (editMessageId === 0) {
+      console.error("Could not update message - messageId may not be 0");
+      return;
+    }
+    const updatedMessages = messages.filter(
+      (message) => message.id !== editMessageId
+    );
+    const updatedMessage = {
+      id: editMessageId,
+      unixTimestamp: unixTimestamp,
+      message: message,
+    };
+    setMessages([
+      ...updatedMessages,
+      {
+        ...updatedMessage,
+      },
+    ]);
   };
 
   const deleteMessage = (messageId) => {
@@ -76,26 +79,21 @@ function App() {
     setMessages([...updatedMessages]);
   };
 
-  const handleDeleteMessage = (messageId) => {
-    deleteMessage(messageId);
-    // add a delete message confimation here
-    // maybe a toaster message
-  };
-
   const handleOnEditClick = (messageId) => {
     setEditMessageId(messageId);
     setIsEditModalActive(true);
   };
 
   const handleOnDeleteClick = (messageId) => {
-    alert("Delete message id: " + messageId);
+    deleteMessage(messageId);
   };
 
   const handleCreate = () => {
     setIsCreateModalActive(true);
   };
 
-  const handleCreateModalOk = () => {
+  const handleCreateModalSave = (messageText, unixTimestamp) => {
+    createMessage(messageText, unixTimestamp);
     setIsCreateModalActive(false);
   };
 
@@ -103,7 +101,8 @@ function App() {
     setIsCreateModalActive(false);
   };
 
-  const handleEditModalOk = () => {
+  const handleEditModalSave = (message, unixTimestamp) => {
+    updateMessage(message, unixTimestamp);
     setEditMessageId(0);
     setIsEditModalActive(false);
   };
@@ -133,35 +132,30 @@ function App() {
         </div>
       )}
       {isCreateModalActive && (
-        <CreateModal
+        <MessageModal
           title="Create new message"
           isVisible={isCreateModalActive}
-          onClickOk={handleCreateModalOk}
           onClickCancel={handleCreateModalCancel}
-          createDisabled={isCreateDisabled}
         >
           <MessageForm
-            enableOk={() => setIsCreateDisabled(false)}
-            disableOk={() => setIsCreateDisabled(true)}
-            createMessage={createMessage}
+            onClickCancel={handleCreateModalCancel}
+            onClickSave={handleCreateModalSave}
           />
-        </CreateModal>
+        </MessageModal>
       )}
       {isEditModalActive && editMessageData && (
-        <EditModal
+        <MessageModal
           title="Edit message"
           isVisible={isEditModalActive}
-          onClickOk={handleEditModalOk}
           onClickCancel={handleEditModalCancel}
-          updateDisabled={isUpdateDisabled}
         >
           <MessageForm
-            enableOk={() => setIsUpdateDisabled(false)}
-            disableOk={() => setIsUpdateDisabled(true)}
+            onClickCancel={handleEditModalCancel}
+            onClickSave={handleEditModalSave}
             message={editMessageData.message}
             unixTimestamp={editMessageData.unixTimestamp}
           />
-        </EditModal>
+        </MessageModal>
       )}
     </div>
   );

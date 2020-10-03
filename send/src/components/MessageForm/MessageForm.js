@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DatePicker, Input } from "antd";
+import { Button, DatePicker, Input } from "antd";
 import "./MessageForm.css";
 import moment from "moment";
 
@@ -9,9 +9,8 @@ function MessageForm(props) {
   const {
     message = "",
     unixTimestamp = "",
-    enableOk = () => {},
-    disableOk = () => {},
-    createMessage = () => {},
+    onClickCancel = () => {},
+    onClickSave = () => {},
   } = props;
 
   let messageTextDefaultValue = "";
@@ -29,6 +28,7 @@ function MessageForm(props) {
   const [messageText, setMessageText] = useState(messageTextDefaultValue);
   const [scheduleDate, setScheduleDate] = useState(scheduleDateDefaultValue);
   const [hasInteractedWithForm, setHasInteractedWithForm] = useState(false);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
   const handleTextChange = (event) => {
     setMessageText(event.target.value);
@@ -49,10 +49,6 @@ function MessageForm(props) {
       <sup>*</sup>
     </span>
   );
-
-  useEffect(() => {
-    disableOk();
-  }, []);
 
   useEffect(() => {
     let messageNotEmpty = false;
@@ -86,11 +82,11 @@ function MessageForm(props) {
       }
     }
 
-    // Submit button for update or create
+    // Save button
     if (messageNotEmpty && dateNotEmpty && dateNotPassedDate) {
-      enableOk();
+      setIsSaveDisabled(false);
     } else {
-      disableOk();
+      setIsSaveDisabled(true);
     }
   }, [messageText, scheduleDate]);
 
@@ -125,6 +121,24 @@ function MessageForm(props) {
       </div>
       <div className="note">
         {required} These fields are required to be completed
+      </div>
+      <div className="message-form-actions-wrapper">
+        <div className="message-form-action-item">
+          <Button key="cancel" onClick={onClickCancel}>
+            Cancel
+          </Button>
+        </div>
+        <div className="message-form-action-item">
+          <Button
+            key="submit"
+            type="primary"
+            onClick={onClickSave}
+            disabled={isSaveDisabled}
+            onClick={() => onClickSave(messageText, scheduleDate.unix())}
+          >
+            Save
+          </Button>
+        </div>
       </div>
     </div>
   );
