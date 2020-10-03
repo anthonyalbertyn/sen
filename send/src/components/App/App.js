@@ -5,6 +5,7 @@ import NewMessageButton from "../NewMessageButton";
 import MessageList from "../MessageList";
 import MessageModal from "../MessageModal";
 import MessageForm from "../MessageForm";
+import SortFilter from "../SortFilter";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -14,6 +15,7 @@ function App() {
   const [isEditModalActive, setIsEditModalActive] = useState(false);
   const [isCreateModalActive, setIsCreateModalActive] = useState(false);
   const [editMessageId, setEditMessageId] = useState(0);
+  const [isSortAscending, setIsSortAscending] = useState(true);
 
   const getMessageData = (messageId) => {
     let messageData;
@@ -114,13 +116,28 @@ function App() {
 
   const editMessageData = getMessageData(editMessageId);
 
+  const sortOrderText = isSortAscending ? "ascending" : "descending";
+
   return (
     <div className="app">
       <header className="app-header">
         <h1>Message Scheduler</h1>
       </header>
       <div className="app-actions">
-        <NewMessageButton label="New Message" onClick={handleCreate} />
+        <div className="app-new-message-button-wrapper">
+          <NewMessageButton label="New Message" onClick={handleCreate} />
+        </div>
+        {messages.length > 1 && (
+          <div classNName="app-sort-filter-wrapper">
+            <SortFilter
+              isSortAscending={isSortAscending}
+              setIsSortAscending={setIsSortAscending}
+            />
+            <div className="app-sort-filter-label">
+              Messages sorted by {sortOrderText} post date
+            </div>
+          </div>
+        )}
       </div>
       {messages.length > 0 && (
         <div className="app-message-list-wrapper">
@@ -128,6 +145,7 @@ function App() {
             messages={messages}
             onEditClick={handleOnEditClick}
             onDeleteClick={handleOnDeleteClick}
+            sortAscending={isSortAscending}
           />
         </div>
       )}

@@ -18,9 +18,14 @@ code {
 }
 
 .app-actions {
-  margin: 1rem 0 2rem 0;
+  margin: 1rem 0;
 }
 
 .app-message-list-wrapper {
   margin-bottom: 4rem;
+}
+
+.app-new-message-button-wrapper {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
 }

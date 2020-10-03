@@ -7,6 +7,7 @@ function MessageList(props) {
     messages = [],
     onEditClick = () => {},
     onDeleteClick = () => {},
+    sortAscending = true,
   } = props;
 
   // sort asc by date and time
@@ -14,7 +15,16 @@ function MessageList(props) {
     return parseInt(a.unixTimestamp, 10) - parseInt(b.unixTimestamp, 10);
   };
 
-  const sortedMessages = messages.sort(compareForNumericAscending);
+  // sort desc by date and time
+  const compareForNumericDescending = (a, b) => {
+    return parseInt(b.unixTimestamp, 10) - parseInt(a.unixTimestamp, 10);
+  };
+
+  const sortDirectionCompare = sortAscending
+    ? compareForNumericAscending
+    : compareForNumericDescending;
+
+  const sortedMessages = messages.sort(sortDirectionCompare);
 
   return (
     <>
