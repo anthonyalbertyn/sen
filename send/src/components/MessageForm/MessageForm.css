@@ -1,0 +1,21 @@
+.message-form-item {
+  margin-bottom: 1rem;
+}
+
+.message-form-item-label {
+  margin-bottom: 0.5rem;
+}
+
+.message-form-error {
+  color: red;
+  font-size: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.required {
+  color: red;
+}
+
+.note {
+  padding-top: 1rem;
+}

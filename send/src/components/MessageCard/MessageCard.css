@@ -1,0 +1,24 @@
+.message-card {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 1rem;
+}
+
+.message-card-body {
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+}
+
+.message-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-card-action-buttons-wrapper {
+  display: flex;
+}
+
+.message-card-action-button {
+  margin-right: 0.5rem;
+}
