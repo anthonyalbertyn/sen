@@ -1,9 +1,12 @@
 import React from "react";
 import { Card, Popconfirm } from "antd";
+import { CalendarOutlined } from "@ant-design/icons";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
 import PropTypes from "prop-types";
 import "./MessageCard.css";
+
+const { Meta } = Card;
 
 const propsDefinition = {
   messageId: PropTypes.number.isRequired,
@@ -22,7 +25,10 @@ function MessageCard(props) {
     title = "",
   } = props;
   return (
-    <Card title={title} className="message-card">
+    <Card className="message-card">
+      <div>
+        <Meta avatar={<CalendarOutlined />} title={title} />
+      </div>
       <div className="message-card-body">{messageText}</div>
       <div className="message-card-actions">
         <div className="message-card-action-buttons-wrapper">

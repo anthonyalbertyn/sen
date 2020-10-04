@@ -4,15 +4,23 @@
   margin-bottom: 1rem;
 }
 
+.ant-card.message-card {
+  margin-bottom: 1rem;
+}
+
 .message-card-body {
   margin-bottom: 1.25rem;
   font-size: 1rem;
+  padding-top: 1rem;
+  min-height: 4rem;
 }
 
 .message-card-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px dotted #d9d9d9;
+  padding-top: 1rem;
 }
 
 .message-card-action-buttons-wrapper {
