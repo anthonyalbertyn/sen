@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 function DeleteButton(props) {
-  const { label = "", onClick = () => {} } = props;
+  const { onClick = () => {}, label = "" } = props;
   return (
     <Button
       type="secondary"

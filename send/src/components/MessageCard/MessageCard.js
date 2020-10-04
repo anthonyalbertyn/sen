@@ -1,16 +1,16 @@
 import React from "react";
 import { Card, Popconfirm } from "antd";
-import "./MessageCard.css";
-import EditButton from "../EditButton";
 import DeleteButton from "../DeleteButton";
+import EditButton from "../EditButton";
+import "./MessageCard.css";
 
 function MessageCard(props) {
   const {
-    title = "",
-    messageText = "",
     messageId = 0,
-    onEditClick = () => {},
+    messageText = "",
     onDeleteClick = () => {},
+    onEditClick = () => {},
+    title = "",
   } = props;
   return (
     <Card title={title} className="message-card">
