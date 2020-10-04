@@ -161,7 +161,7 @@ function App() {
           <NewMessageButton label="New Message" onClick={handleCreateClick} />
         </div>
         {messages.length > 1 && (
-          <div classNName="app-sort-filter-wrapper">
+          <div className="app-sort-filter-wrapper">
             <SortFilter
               isSortAscending={isSortAscending}
               setIsSortAscending={setIsSortAscending}

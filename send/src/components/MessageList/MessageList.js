@@ -8,7 +8,7 @@ const propsDefinition = {
     PropTypes.shape({
       id: PropTypes.number,
       message: PropTypes.string,
-      unixTimestamp: PropTypes.string,
+      unixTimestamp: PropTypes.number,
     })
   ).isRequired,
   onDeleteClick: PropTypes.func.isRequired,
@@ -26,12 +26,12 @@ function MessageList(props) {
 
   // Sort direction for ascending by date and time
   const compareForNumericAscending = (a, b) => {
-    return parseInt(a.unixTimestamp, 10) - parseInt(b.unixTimestamp, 10);
+    return a.unixTimestamp - b.unixTimestamp;
   };
 
   // Sort direction for descending by date and time
   const compareForNumericDescending = (a, b) => {
-    return parseInt(b.unixTimestamp, 10) - parseInt(a.unixTimestamp, 10);
+    return b.unixTimestamp - a.unixTimestamp;
   };
 
   // Decide which sort direction to use

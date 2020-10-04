@@ -10,7 +10,7 @@ const propsDefinition = {
   message: PropTypes.string,
   onClickCancel: PropTypes.func.isRequired,
   onClickSave: PropTypes.func.isRequired,
-  unixTimestamp: PropTypes.string,
+  unixTimestamp: PropTypes.number,
 };
 
 function MessageForm(props) {
@@ -18,7 +18,7 @@ function MessageForm(props) {
     message = "",
     onClickCancel = () => {},
     onClickSave = () => {},
-    unixTimestamp = "",
+    unixTimestamp = 0,
   } = props;
 
   // MessageForm is used for both creating new messages
@@ -163,7 +163,6 @@ function MessageForm(props) {
           <Button
             key="submit"
             type="primary"
-            onClick={onClickSave}
             disabled={isSaveDisabled}
             onClick={() => onClickSave(messageText, scheduleDate.unix())}
           >
