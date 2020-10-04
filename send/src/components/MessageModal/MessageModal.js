@@ -3,10 +3,10 @@ import { Modal } from "antd";
 
 function MessageModal(props) {
   const {
-    title = "",
+    children,
     isVisible = false,
     onClickCancel = () => {},
-    children,
+    title = "",
   } = props;
 
   return (
