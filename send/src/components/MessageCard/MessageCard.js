@@ -2,7 +2,16 @@ import React from "react";
 import { Card, Popconfirm } from "antd";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
+import PropTypes from "prop-types";
 import "./MessageCard.css";
+
+const propsDefinition = {
+  messageId: PropTypes.number.isRequired,
+  messageText: PropTypes.string.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 function MessageCard(props) {
   const {
@@ -37,5 +46,7 @@ function MessageCard(props) {
     </Card>
   );
 }
+
+MessageCard.propTypes = propsDefinition;
 
 export default MessageCard;

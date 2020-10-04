@@ -1,6 +1,12 @@
 import React from "react";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
+
+const propsDefinition = {
+  onClick: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+};
 
 function DeleteButton(props) {
   const { onClick = () => {}, label = "" } = props;
@@ -15,5 +21,7 @@ function DeleteButton(props) {
     </Button>
   );
 }
+
+DeleteButton.propTypes = propsDefinition;
 
 export default DeleteButton;
