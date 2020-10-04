@@ -7,6 +7,14 @@ import SortFilter from "../SortFilter";
 import "antd/dist/antd.css";
 import "./App.css";
 
+// NOTE:
+// There are some console errors caused by
+// Button and DatePicker components from
+// antd library. Before going to production
+// I would upgrade antd to a later version
+// and make any implementation changes that
+// may be needed
+
 function App() {
   // In a more complex application, we can store
   // messages state in a Redux store, but for this
