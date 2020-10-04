@@ -4,7 +4,13 @@ import {
   SortAscendingOutlined,
   SortDescendingOutlined,
 } from "@ant-design/icons";
+import PropTypes from "prop-types";
 import "./SortFilter.css";
+
+const propsDefinition = {
+  isSortAscending: PropTypes.bool,
+  setIsSortAscending: PropTypes.func.isRequired,
+};
 
 function SortFilter(props) {
   const { isSortAscending = true, setIsSortAscending = () => {} } = props;
@@ -38,5 +44,7 @@ function SortFilter(props) {
     </div>
   );
 }
+
+SortFilter.propTypes = propsDefinition;
 
 export default SortFilter;

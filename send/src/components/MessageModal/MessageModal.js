@@ -1,5 +1,13 @@
 import React from "react";
 import { Modal } from "antd";
+import PropTypes from "prop-types";
+
+const propsDefinition = {
+  children: PropTypes.node,
+  isVisible: PropTypes.bool,
+  onClickCancel: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 function MessageModal(props) {
   const {
@@ -20,5 +28,7 @@ function MessageModal(props) {
     </Modal>
   );
 }
+
+MessageModal.propTypes = propsDefinition;
 
 export default MessageModal;

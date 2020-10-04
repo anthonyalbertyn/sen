@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Input } from "antd";
+import PropTypes from "prop-types";
 import moment from "moment";
 import "./MessageForm.css";
 
 const { TextArea } = Input;
+
+const propsDefinition = {
+  message: PropTypes.string,
+  onClickCancel: PropTypes.func.isRequired,
+  onClickSave: PropTypes.func.isRequired,
+  unixTimestamp: PropTypes.string,
+};
 
 function MessageForm(props) {
   const {
@@ -166,5 +174,7 @@ function MessageForm(props) {
     </div>
   );
 }
+
+MessageForm.propTypes = propsDefinition;
 
 export default MessageForm;

@@ -1,6 +1,20 @@
 import React from "react";
 import moment from "moment";
 import MessageCard from "../MessageCard";
+import PropTypes from "prop-types";
+
+const propsDefinition = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      message: PropTypes.string,
+      unixTimestamp: PropTypes.string,
+    })
+  ).isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
+  onEditClick: PropTypes.func.isRequired,
+  sortAscending: PropTypes.bool,
+};
 
 function MessageList(props) {
   const {
@@ -50,5 +64,7 @@ function MessageList(props) {
     </>
   );
 }
+
+MessageList.propTypes = propsDefinition;
 
 export default MessageList;
