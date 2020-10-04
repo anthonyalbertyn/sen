@@ -4,7 +4,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
 const propsDefinition = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
 };
 
