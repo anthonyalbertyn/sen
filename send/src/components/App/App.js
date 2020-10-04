@@ -1,35 +1,40 @@
 import React, { useRef, useState } from "react";
-import "antd/dist/antd.css";
-import "./App.css";
 import NewMessageButton from "../NewMessageButton";
+import MessageForm from "../MessageForm";
 import MessageList from "../MessageList";
 import MessageModal from "../MessageModal";
-import MessageForm from "../MessageForm";
 import SortFilter from "../SortFilter";
+import "antd/dist/antd.css";
+import "./App.css";
 
 function App() {
+  // In a more complex application, we can store
+  // messages state in a Redux store, but for this
+  // tiny app, component state will do
   const [messages, setMessages] = useState([]);
 
+  // If this app was accessing an API to save
+  // and retrieve data from a relational database,
+  // then the id for each record would come from
+  // the primary key from a database record via
+  // a response from the API. For this app we
+  // just use a simple count. We could do this
+  // in component state, but useRef is ok too as
+  // it avoids an extra component rerender every
+  // time its value changes.
   const lastCreatedMessageId = useRef(0);
 
+  // State for tracking opening and closing modals
   const [isEditModalActive, setIsEditModalActive] = useState(false);
   const [isCreateModalActive, setIsCreateModalActive] = useState(false);
+
+  // State for tracking which message is been edited
   const [editMessageId, setEditMessageId] = useState(0);
+
+  // State to track sort order of messages
   const [isSortAscending, setIsSortAscending] = useState(true);
 
-  const getMessageData = (messageId) => {
-    let messageData;
-    if (messageId) {
-      const data = messages.find((item) => item.id === messageId);
-      if (data) {
-        messageData = {
-          ...data,
-        };
-      }
-    }
-    return messageData;
-  };
-
+  // Add a new message to messages state
   const createMessage = (message, unixTimestamp) => {
     if (!message || !unixTimestamp) {
       console.error("Could not create message - missing field values");
@@ -49,6 +54,7 @@ function App() {
     ]);
   };
 
+  // Update a specific message in messages state
   const updateMessage = (message, unixTimestamp) => {
     if (editMessageId === 0) {
       console.error("Could not update message - messageId may not be 0");
@@ -70,6 +76,7 @@ function App() {
     ]);
   };
 
+  // Remove a specific message from messages state
   const deleteMessage = (messageId) => {
     if (!messageId || typeof messageId !== "number") {
       console.error("Could not delete message - invalid or missing message id");
@@ -81,43 +88,69 @@ function App() {
     setMessages([...updatedMessages]);
   };
 
-  const handleOnEditClick = (messageId) => {
-    setEditMessageId(messageId);
-    setIsEditModalActive(true);
+  // Retrieve a copy of a specific message from messages state
+  const getMessageData = (messageId) => {
+    let messageData;
+    if (messageId) {
+      const data = messages.find((item) => item.id === messageId);
+      if (data) {
+        messageData = {
+          ...data,
+        };
+      }
+    }
+    return messageData;
   };
 
-  const handleOnDeleteClick = (messageId) => {
-    deleteMessage(messageId);
-  };
-
-  const handleCreate = () => {
+  // Open create message modal
+  const handleCreateClick = () => {
     setIsCreateModalActive(true);
   };
 
-  const handleCreateModalSave = (messageText, unixTimestamp) => {
+  // Close create message modal without saving
+  const handleCreateCancel = () => {
+    setIsCreateModalActive(false);
+  };
+
+  // Save new message and close create message modal
+  const handleCreateSave = (messageText, unixTimestamp) => {
     createMessage(messageText, unixTimestamp);
     setIsCreateModalActive(false);
   };
 
-  const handleCreateModalCancel = () => {
-    setIsCreateModalActive(false);
+  // Open specific message in edit message modal
+  const handleEditClick = (messageId) => {
+    setEditMessageId(messageId);
+    setIsEditModalActive(true);
   };
 
-  const handleEditModalSave = (message, unixTimestamp) => {
+  // Close edit message modal without saving
+  const handleEditCancel = () => {
+    setEditMessageId(0);
+    setIsEditModalActive(false);
+  };
+
+  // Save changes to message and close edit message modal
+  const handleEditSave = (message, unixTimestamp) => {
     updateMessage(message, unixTimestamp);
     setEditMessageId(0);
     setIsEditModalActive(false);
   };
 
-  const handleEditModalCancel = () => {
-    setEditMessageId(0);
-    setIsEditModalActive(false);
+  // Delete a specific message
+  const handleDeleteClick = (messageId) => {
+    deleteMessage(messageId);
   };
 
+  // Message data for edit message modal
   const editMessageData = getMessageData(editMessageId);
 
+  // Text for sort order wording
   const sortOrderText = isSortAscending ? "ascending" : "descending";
 
+  // For a more complicated app, we could make this component
+  // a child of a layout component so that layout can be re-used
+  // across the app.
   return (
     <div className="app">
       <header className="app-header">
@@ -125,7 +158,7 @@ function App() {
       </header>
       <div className="app-actions">
         <div className="app-new-message-button-wrapper">
-          <NewMessageButton label="New Message" onClick={handleCreate} />
+          <NewMessageButton label="New Message" onClick={handleCreateClick} />
         </div>
         {messages.length > 1 && (
           <div classNName="app-sort-filter-wrapper">
@@ -143,8 +176,8 @@ function App() {
         <div className="app-message-list-wrapper">
           <MessageList
             messages={messages}
-            onEditClick={handleOnEditClick}
-            onDeleteClick={handleOnDeleteClick}
+            onEditClick={handleEditClick}
+            onDeleteClick={handleDeleteClick}
             sortAscending={isSortAscending}
           />
         </div>
@@ -153,11 +186,11 @@ function App() {
         <MessageModal
           title="Create new message"
           isVisible={isCreateModalActive}
-          onClickCancel={handleCreateModalCancel}
+          onClickCancel={handleCreateCancel}
         >
           <MessageForm
-            onClickCancel={handleCreateModalCancel}
-            onClickSave={handleCreateModalSave}
+            onClickCancel={handleCreateCancel}
+            onClickSave={handleCreateSave}
           />
         </MessageModal>
       )}
@@ -165,11 +198,11 @@ function App() {
         <MessageModal
           title="Edit message"
           isVisible={isEditModalActive}
-          onClickCancel={handleEditModalCancel}
+          onClickCancel={handleEditCancel}
         >
           <MessageForm
-            onClickCancel={handleEditModalCancel}
-            onClickSave={handleEditModalSave}
+            onClickCancel={handleEditCancel}
+            onClickSave={handleEditSave}
             message={editMessageData.message}
             unixTimestamp={editMessageData.unixTimestamp}
           />
