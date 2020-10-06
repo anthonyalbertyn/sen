@@ -36,6 +36,6 @@ Date completed: 4 October 2020
 
 ## Some bugs
 
-- The antd library is causing some errors to appear in the console
+- The console is reporting some errors (cuased by the antd library)
 - These errors are produced by the antd Button and DatePicker components
 - Upgrading to a later version of antd library should fix the issues
